@@ -1,0 +1,35 @@
+[{
+
+    "george": {
+        "picture": "http://placehold.it/32x32",
+        "name": {
+          "first": "George",
+          "last": "Harrison"
+        },
+        "about": "Mollit minim adipisicing labore culpa laborum Lorem. Officia anim veniam commodo sit aliqua. Duis aute magna ea et. Labore eu qui duis pariatur ea pariatur nostrud pariatur. Est sint do quis et minim minim nostrud amet id incididunt occaecat. Eu incididunt sit anim dolore consequat qui consectetur non. Velit nulla minim dolore fugiat ad exercitation ipsum consectetur."
+    },
+    "paul": {
+        "picture": "http://placehold.it/32x32",
+        "name": {
+          "first": "Paul",
+          "last": "McCartney"
+        },
+        "about": "Mollit minim adipisicing labore culpa laborum Lorem. Officia anim veniam commodo sit aliqua. Duis aute magna ea et. Labore eu qui duis pariatur ea pariatur nostrud pariatur. Est sint do quis et minim minim nostrud amet id incididunt occaecat. Eu incididunt sit anim dolore consequat qui consectetur non. Velit nulla minim dolore fugiat ad exercitation ipsum consectetur."
+    },
+    "john": {
+        "picture": "http://placehold.it/32x32",
+        "name": {
+        "first": "John",
+        "last": "Lennon"
+        },
+        "about": "Mollit minim adipisicing labore culpa laborum Lorem. Officia anim veniam commodo sit aliqua. Duis aute magna ea et. Labore eu qui duis pariatur ea pariatur nostrud pariatur. Est sint do quis et minim minim nostrud amet id incididunt occaecat. Eu incididunt sit anim dolore consequat qui consectetur non. Velit nulla minim dolore fugiat ad exercitation ipsum consectetur."
+    },
+    "ringo": {
+        "picture": "http://placehold.it/32x32",
+        "name": {
+        "first": "Ringo",
+        "last": "Starr"
+        },
+        "about": "Mollit minim adipisicing labore culpa laborum Lorem. Officia anim veniam commodo sit aliqua. Duis aute magna ea et. Labore eu qui duis pariatur ea pariatur nostrud pariatur. Est sint do quis et minim minim nostrud amet id incididunt occaecat. Eu incididunt sit anim dolore consequat qui consectetur non. Velit nulla minim dolore fugiat ad exercitation ipsum consectetur."
+    }
+}]
