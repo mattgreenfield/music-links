@@ -1,66 +1,63 @@
 
-var OutputPerson = React.createClass({
+var peopleData = new Object();
 
-    // Empty State
-    getInitialState: function() {
-        return {
-            firstName: '',
-            lastName: '',
-            image: ''
-        };
-    },
+$.get("data/people.json", function (result) {
 
-    componentDidMount: function() {
-        this.serverRequest = $.get("data/people.json", function (result) {
-            // console.log(result);
-            var data = result[0][this.props.name];
+    // console.log(result);
+    peopleData = result[0];
 
-            this.setState({
-                firstName: data.name.first,
-                lastName: data.name.last,
-                image: data.picture,
-                bio: data.about,
-                related: data.related
-            });
-        }.bind(this));
-    },
+    console.log(peopleData.john);
 
-    componentWillUnmount: function() {
-        this.serverRequest.abort();
-    },
-
-    handleClick: function() {
-        console.log("clicked");
-    },
-
-    render: function() {
-        return (
-            <div onClick={this.handleClick}>
-                <img src={this.state.image}/>
-                <p>{this.state.firstName} {this.state.lastName}</p>
-                <details>
-                    <summary>Read Bio</summary>
-                    {this.state.bio}
-                </details>
-                <ul>
-                    <li></li>
-                </ul>
-            </div>
-        );
-    }
+    runReact();
 });
 
-var OutputLinks = React.createClass({
-    render: function() {
-        return <div>
+
+// console.log(peopleData.john.firstname);
+
+function runReact(){
+
+    var OutputPerson = React.createClass({
+
+        handleClick: function() {
+            console.log("clicked");
+        },
+
+        render: function() {
+            var person = String(this.props.name);
+
+            // console.log(person);
+            // console.log(peopleData);
+            // console.log(peopleData[person]);
+
+            return (
+                <div className="artist" onClick={this.handleClick}>
+
+                    <p>{peopleData[person].name.first} {peopleData[person].name.last}</p>
+                    <img src={peopleData[person].picture} />
+                    <details>
+                        <summary>Read Bio</summary>
+                        {peopleData[person].about}
+                    </details>
+                    <ul>
+                        <li></li>
+                    </ul>
+                </div>
+            );
+        }
+    });
+
+    var OutputLinks = React.createClass({
+        render: function() {
+            return <div>
             < OutputPerson name="john" />
             < OutputPerson name="paul" />
             < OutputPerson name="ringo" />
-        </div>
-    }
-})
+            </div>
+        }
+    })
 
-ReactDOM.render(
-    < OutputPerson name="john" />,
-    document.getElementById('example')
-);
+    ReactDOM.render(
+        < OutputPerson name="paul" />,
+        document.getElementById('example')
+    );
+}
