@@ -22,11 +22,36 @@ function getPeople(){
 
         // Now we have the people data, run react and render the site
         ReactDOM.render(
-            < OutputPerson name="ringo" />,
+            <OutputPeople people={peopleToShowArray} />,
             document.getElementById('example')
         );
     });
 }
+
+// Component: page
+var peopleToShowArray = [
+    'john',
+    'paul',
+    "ringo"
+];
+var OutputPeople = React.createClass({
+
+    render: function() {
+        // the name passed to this function
+        var person = String(this.props.name);
+        // console.log(person);
+
+        // Loop through the peopleToShowArray array and get which people we need to output
+        var peopleList = this.props.people.map(function(name) {
+           return <OutputPerson key={name} name={name} />;
+        });
+
+        return <div className="peopleList">{peopleList}</div>;
+    }
+});
+
+
+
 
 
 // Component: person
@@ -55,9 +80,11 @@ var OutputPerson = React.createClass({
 // Component: links
 var OutputLinks = React.createClass({
 
-    handleClick: function(name) {
 
-        console.log("clicked:"+name);
+    // Function to render the given 'name' as a new card in the page
+    renderNewPerson: function(name) {
+
+        console.log("Clicked: "+name);
 
         // var parent = findAncestor( document.getElementById('js-link-to-{name}'), 'artist');
         ReactDOM.render(
@@ -78,23 +105,23 @@ var OutputLinks = React.createClass({
 
             var peopleInLink = linksData[i].people;
             var linkDescription = linksData[i].description;
-            console.log(peopleInLink);
+            // console.log(peopleInLink);
 
-            // Check if the person whos card we are building is in the "peopleInLink" array
+            // Check if the person whos card we are building is in this entry of the json
             if( peopleInLink.indexOf(person) != -1 ){
-                console.log("we have a link");
-                // Loop through all the names in that link
-                for (var i = 0; i < peopleInLink.length; i++) {
-                    var name = peopleInLink[i];
+                // console.log("we have a link");
+
+                // Loop through all the names in that link / json entry
+                for (var a = 0; a < peopleInLink.length; a++) {
+                    var name = peopleInLink[a];
 
                     // Don't output the person as a link to themselves
+                    // @TODO: stop it outputting if the name is already in the `links` array
                     if(name != person){
                         // Note: the onClick may look a bit odd, really its just `onClick="handleClick(name)"`. See http://stackoverflow.com/a/20446806/3098555
-                        links.push(<li key={i} id="js-link-to-{name}" onClick={this.handleClick.bind(null, name)}>{name}</li>);
+                        links.push(<li key={a} id="js-link-to-{name}" onClick={this.renderNewPerson.bind(null, name)}>{name}</li>);
                     }
                 }
-            } else {
-                console.log("nothing to do with em")
             }
 
         }
