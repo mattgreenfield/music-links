@@ -22,7 +22,7 @@ function getPeople(){
 
         // Now we have the people data, run react and render the site
         ReactDOM.render(
-            < OutputPerson name="paul" />,
+            < OutputPerson name="ringo" />,
             document.getElementById('example')
         );
     });
@@ -73,15 +73,28 @@ var OutputLinks = React.createClass({
         var links = [];
         // console.log(linksData.length);
 
+        // Loop through all the relationships in relationships.json / linksData array
         for(var i = 0; i < linksData.length; i++){
 
             var peopleInLink = linksData[i].people;
-            // console.log(peopleInLink);
+            var linkDescription = linksData[i].description;
+            console.log(peopleInLink);
 
-            for (var i = 0; i < peopleInLink.length; i++) {
-                var name = peopleInLink[i];
-                // the onClick may look a bit odd, really its just `onClick="handleClick(name)"`. See http://stackoverflow.com/a/20446806/3098555
-                links.push(<li key={i} id="js-link-to-{name}" onClick={this.handleClick.bind(null, name)}>{name}</li>);
+            // Check if the person whos card we are building is in the "peopleInLink" array
+            if( peopleInLink.indexOf(person) != -1 ){
+                console.log("we have a link");
+                // Loop through all the names in that link
+                for (var i = 0; i < peopleInLink.length; i++) {
+                    var name = peopleInLink[i];
+
+                    // Don't output the person as a link to themselves
+                    if(name != person){
+                        // Note: the onClick may look a bit odd, really its just `onClick="handleClick(name)"`. See http://stackoverflow.com/a/20446806/3098555
+                        links.push(<li key={i} id="js-link-to-{name}" onClick={this.handleClick.bind(null, name)}>{name}</li>);
+                    }
+                }
+            } else {
+                console.log("nothing to do with em")
             }
 
         }

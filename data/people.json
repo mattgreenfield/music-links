@@ -31,5 +31,29 @@
         "last": "Starr"
         },
         "about": "Mollit minim adipisicing labore culpa laborum Lorem. Officia anim veniam commodo sit aliqua. Duis aute magna ea et. Labore eu qui duis pariatur ea pariatur nostrud pariatur. Est sint do quis et minim minim nostrud amet id incididunt occaecat. Eu incididunt sit anim dolore consequat qui consectetur non. Velit nulla minim dolore fugiat ad exercitation ipsum consectetur."
+    },
+    "weller": {
+        "picture": "/",
+        "name": {
+        "first": "Paul",
+        "last": "Weller"
+        },
+        "about": "The Modfather"
+    },
+    "barry": {
+        "picture": "/",
+        "name": {
+        "first": "Barry",
+        "last": "Moon"
+        },
+        "about": "The mood maker"
+    },
+    "clive": {
+        "picture": "/",
+        "name": {
+        "first": "Clive",
+        "last": "May"
+        },
+        "about": "or he might not"
     }
 }]

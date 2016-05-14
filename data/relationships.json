@@ -1,15 +1,14 @@
 [
     {
-        "people": [
-            "george",
-            "paul",
-            "john",
-            "ringo"
-        ],
+        "people": ["george","paul","john","ringo"],
         "description": "They are linked because they were all in The Beatles"
     },
     {
         "people": ["weller","george"],
         "description": "They are linked because they were all on a limited edition 12\" release in the 90's"
+    },
+    {
+        "people": ["barry","clive","weller","ringo"],
+        "description": "Barry and Clive used to date."
     }
 ]
