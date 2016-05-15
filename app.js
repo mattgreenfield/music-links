@@ -21,32 +21,41 @@ function getPeople(){
         // console.log(peopleData.john);
 
         // Now we have the people data, run react and render the site
-        ReactDOM.render(
-            <OutputPeople people={peopleToShowArray} />,
-            document.getElementById('example')
-        );
+        buildPage();
     });
+}
+
+function buildPage(){
+    ReactDOM.render(
+        <OutputPeople />,
+        document.getElementById('page')
+    );
 }
 
 // Component: page
 var peopleToShowArray = [
-    'john',
-    'paul',
-    "ringo"
+    'john'
 ];
 var OutputPeople = React.createClass({
 
     render: function() {
-        // the name passed to this function
-        var person = String(this.props.name);
-        // console.log(person);
 
-        // Loop through the peopleToShowArray array and get which people we need to output
-        var peopleList = this.props.people.map(function(name) {
-           return <OutputPerson key={name} name={name} />;
-        });
+        // Loop through the peopleToShowArray array and add the output of each person we need to output
+        var peopleList = [];
+        var lastPerson;
+        for(var i = 0; i < peopleToShowArray.length; i++){
+            peopleList.push(<OutputPerson key={peopleToShowArray[i]} name={peopleToShowArray[i]}/>);
+            lastPerson = peopleToShowArray[i];
+        }
+        // console.log(lastPerson);
 
-        return <div className="peopleList">{peopleList}</div>;
+        // Output everyone in the 'peopleList' array and the links to the 'lastPerson'
+        return (
+            <main>
+                {peopleList}
+                < OutputLinks name={lastPerson}/>
+            </main>
+        );
     }
 });
 
@@ -63,15 +72,17 @@ var OutputPerson = React.createClass({
         // console.log(person);
 
         return (
-            <div className="artist">
-                <p>{peopleData[person].name.first} {peopleData[person].name.last}</p>
-                <img src={peopleData[person].picture} />
-                <details>
-                    <summary>Read Bio</summary>
-                    {peopleData[person].about}
-                </details>
-                < OutputLinks {...this.props} />
-            </div>
+            <article className="row" parent="">
+                <main className="artist">
+                    <div className="artist__image">
+                        <img src={peopleData[person].picture} />
+                    </div>
+                    <div className="artist__text">
+                        <h1>{peopleData[person].name.first} {peopleData[person].name.last}</h1>
+                        {peopleData[person].about}
+                    </div>
+                </main>
+            </article>
         );
     }
 });
@@ -86,11 +97,14 @@ var OutputLinks = React.createClass({
 
         console.log("Clicked: "+name);
 
-        // var parent = findAncestor( document.getElementById('js-link-to-{name}'), 'artist');
-        ReactDOM.render(
-            < OutputPerson name={name} />,
-            document.getElementById('example')
-        );
+        // if they aren't already in the peopleToShowArray array, add them to it
+        // if( peopleToShowArray.indexOf(name) != -1 ){
+            peopleToShowArray.push(name);
+        // }
+        console.log(peopleToShowArray);
+
+        // Now we have the people data, run react and render the site
+        buildPage();
     },
 
     render: function() {
@@ -114,18 +128,20 @@ var OutputLinks = React.createClass({
                 // Loop through all the names in that link / json entry
                 for (var a = 0; a < peopleInLink.length; a++) {
                     var name = peopleInLink[a];
+                    var fullName = peopleData[name].name.first + " " + peopleData[name].name.last;
 
                     // Don't output the person as a link to themselves
                     // @TODO: stop it outputting if the name is already in the `links` array
                     if(name != person){
                         // Note: the onClick may look a bit odd, really its just `onClick="handleClick(name)"`. See http://stackoverflow.com/a/20446806/3098555
-                        links.push(<li key={a} id="js-link-to-{name}" onClick={this.renderNewPerson.bind(null, name)}>{name}</li>);
+                        links.push(<li key={a} id="js-link-to-{name}" onClick={this.renderNewPerson.bind(null, name)}>{fullName}</li>);
+                        // links.push(<OutputPerson key={a} name={name} onClick={this.renderNewPerson.bind(null, name)}/>);
                     }
                 }
             }
 
         }
 
-        return <div> Links: <ul className="list--inline">{links}</ul></div>
+        return <div className="links row">{links}</div>
     }
 })
