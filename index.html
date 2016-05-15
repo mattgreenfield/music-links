@@ -49,9 +49,6 @@
             border-radius: 100%;
         }
         .artist {
-            max-width: 600px;
-            display: block;
-            margin: auto;
             margin-bottom: 1em;
             padding: 1em;
         }
@@ -62,26 +59,31 @@
             margin-bottom: 1em;
             padding-right: 2em;
         }
-        .artist__image,
-        .artist__text {
+
+        .row--artist .artist {
+            max-width: 600px;
+            display: block;
+            margin: auto;
+        }
+        .row--artist .artist__image,
+        .row--artist .artist__text {
             display: inline-block;
             vertical-align: top;
             width: 50%;
         }
 
-        .links {
+        .row--links {
             text-align: center;
-            margin: 0 auto;
-            display: block;
-            max-width: 60%;
-            padding: 0;
-            margin-bottom: 2em;
         }
-        .links li {
+        .row--links .artist {
             display: inline-block;
-            padding: 1em;
-            margin-right: 1em;
+            max-width: 200px;
         }
+        .row--links .artist__text p {
+            display: none;
+        }
+
+
 
         .row {
             padding: 1em;

@@ -44,7 +44,7 @@ var OutputPeople = React.createClass({
         var peopleList = [];
         var lastPerson;
         for(var i = 0; i < peopleToShowArray.length; i++){
-            peopleList.push(<OutputPerson key={peopleToShowArray[i]} name={peopleToShowArray[i]}/>);
+            peopleList.push(<div className="row row--artist" parent=""><OutputPerson key={peopleToShowArray[i]} name={peopleToShowArray[i]}/></div>);
             lastPerson = peopleToShowArray[i];
         }
         // console.log(lastPerson);
@@ -66,32 +66,6 @@ var OutputPeople = React.createClass({
 // Component: person
 var OutputPerson = React.createClass({
 
-    render: function() {
-        // the name passed to this function
-        var person = String(this.props.name);
-        // console.log(person);
-
-        return (
-            <article className="row" parent="">
-                <main className="artist">
-                    <div className="artist__image">
-                        <img src={peopleData[person].picture} />
-                    </div>
-                    <div className="artist__text">
-                        <h1>{peopleData[person].name.first} {peopleData[person].name.last}</h1>
-                        {peopleData[person].about}
-                    </div>
-                </main>
-            </article>
-        );
-    }
-});
-
-
-// Component: links
-var OutputLinks = React.createClass({
-
-
     // Function to render the given 'name' as a new card in the page
     renderNewPerson: function(name) {
 
@@ -101,11 +75,41 @@ var OutputLinks = React.createClass({
         // if( peopleToShowArray.indexOf(name) != -1 ){
             peopleToShowArray.push(name);
         // }
-        console.log(peopleToShowArray);
+        // console.log(peopleToShowArray);
 
         // Now we have the people data, run react and render the site
         buildPage();
     },
+
+    render: function() {
+        // the name passed to this function
+        var person = String(this.props.name);
+
+        // console.log(person);
+
+        var clickEvent;
+        // if this is a link, add the renderNewPerson() function onclick
+        if(this.props.link){
+            clickEvent = this.renderNewPerson.bind(null, person);
+        }
+
+        return (
+                <article className="artist" onClick={clickEvent}>
+                    <div className="artist__image">
+                        <img src={peopleData[person].picture} />
+                    </div>
+                    <div className="artist__text">
+                        <h1>{peopleData[person].name.first} {peopleData[person].name.last}</h1>
+                        <p>{peopleData[person].about}</p>
+                    </div>
+                </article>
+        );
+    }
+});
+
+
+// Component: links
+var OutputLinks = React.createClass({
 
     render: function() {
 
@@ -128,20 +132,19 @@ var OutputLinks = React.createClass({
                 // Loop through all the names in that link / json entry
                 for (var a = 0; a < peopleInLink.length; a++) {
                     var name = peopleInLink[a];
-                    var fullName = peopleData[name].name.first + " " + peopleData[name].name.last;
 
                     // Don't output the person as a link to themselves
-                    // @TODO: stop it outputting if the name is already in the `links` array
+                    // @TODO: stop it outputting if the name is already in the `links` array / on the page
                     if(name != person){
                         // Note: the onClick may look a bit odd, really its just `onClick="handleClick(name)"`. See http://stackoverflow.com/a/20446806/3098555
-                        links.push(<li key={a} id="js-link-to-{name}" onClick={this.renderNewPerson.bind(null, name)}>{fullName}</li>);
-                        // links.push(<OutputPerson key={a} name={name} onClick={this.renderNewPerson.bind(null, name)}/>);
+                        // links.push(<li key={a} id="js-link-to-{name}" onClick={this.renderNewPerson.bind(null, name)}>{fullName}</li>);
+                        links.push(<OutputPerson key={a} name={name} link="true"/>);
                     }
                 }
             }
 
         }
 
-        return <div className="links row">{links}</div>
+        return <div className="row row--links">{links}</div>
     }
 })
