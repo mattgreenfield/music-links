@@ -34,8 +34,10 @@ function buildPage(){
 
 // Component: page
 var peopleToShowArray = [
-    'john'
+    {person: 'john', link: 'nobody'}
 ];
+// console.log(peopleToShowArray);
+
 var OutputPeople = React.createClass({
 
     render: function() {
@@ -44,8 +46,8 @@ var OutputPeople = React.createClass({
         var peopleList = [];
         var lastPerson;
         for(var i = 0; i < peopleToShowArray.length; i++){
-            peopleList.push(<div className="row row--artist" parent=""><OutputPerson key={peopleToShowArray[i]} name={peopleToShowArray[i]}/></div>);
-            lastPerson = peopleToShowArray[i];
+            peopleList.push(<div className="row row--artist" parent=""><OutputPerson key={peopleToShowArray[i]} name={peopleToShowArray[i].person} linkedFrom={peopleToShowArray[i].link}/></div>);
+            lastPerson = peopleToShowArray[i].person;
         }
         // console.log(lastPerson);
 
@@ -67,13 +69,17 @@ var OutputPeople = React.createClass({
 var OutputPerson = React.createClass({
 
     // Function to render the given 'name' as a new card in the page
-    renderNewPerson: function(name) {
+    renderNewPerson: function(name, linkedFrom) {
 
-        console.log("Clicked: "+name);
+        // console.log("Clicked: "+name);
 
         // if they aren't already in the peopleToShowArray array, add them to it
-        // if( peopleToShowArray.indexOf(name) != -1 ){
-            peopleToShowArray.push(name);
+        // if( peopleToShowArray.indexOf(name) == -1 ){
+            var object = {person: name, link: linkedFrom};
+            peopleToShowArray.push(object);
+        // }
+        // else {
+        //     alert("They're already on the page.");
         // }
         // console.log(peopleToShowArray);
 
@@ -84,13 +90,15 @@ var OutputPerson = React.createClass({
     render: function() {
         // the name passed to this function
         var person = String(this.props.name);
+        var linkedFrom = this.props.linkedFrom;
 
         // console.log(person);
 
         var clickEvent;
         // if this is a link, add the renderNewPerson() function onclick
         if(this.props.link){
-            clickEvent = this.renderNewPerson.bind(null, person);
+            // Note: the onClick may look a bit odd, really its just `onClick="renderNewPerson(name)"`. See http://stackoverflow.com/a/20446806/3098555
+            clickEvent = this.renderNewPerson.bind(null, person, linkedFrom);
         }
 
         return (
@@ -100,7 +108,7 @@ var OutputPerson = React.createClass({
                     </div>
                     <div className="artist__text">
                         <h1>{peopleData[person].name.first} {peopleData[person].name.last}</h1>
-                        <p>{peopleData[person].about}</p>
+                        <p>Above me is.. {linkedFrom}</p>
                     </div>
                 </article>
         );
@@ -114,7 +122,7 @@ var OutputLinks = React.createClass({
     render: function() {
 
         // Get the person we want to find links for
-        var person = String(this.props.name);
+        var person = this.props.name;
         var links = [];
         // console.log(linksData.length);
 
@@ -131,14 +139,12 @@ var OutputLinks = React.createClass({
 
                 // Loop through all the names in that link / json entry
                 for (var a = 0; a < peopleInLink.length; a++) {
-                    var name = peopleInLink[a];
+                    var linkName = peopleInLink[a];
 
                     // Don't output the person as a link to themselves
-                    // @TODO: stop it outputting if the name is already in the `links` array / on the page
+                    // @TODO: stop it outputting if the name is already in the `links` array / on the page?
                     if(name != person){
-                        // Note: the onClick may look a bit odd, really its just `onClick="handleClick(name)"`. See http://stackoverflow.com/a/20446806/3098555
-                        // links.push(<li key={a} id="js-link-to-{name}" onClick={this.renderNewPerson.bind(null, name)}>{fullName}</li>);
-                        links.push(<OutputPerson key={a} name={name} link="true"/>);
+                        links.push(<OutputPerson key={a} name={linkName} linkedFrom={person} link="true"/>);
                     }
                 }
             }
