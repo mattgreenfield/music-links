@@ -98,12 +98,17 @@ img {
     margin: 0;
     padding: 0;
     list-style-type: none;
-    li {
-        display: inline-block;
-        width: 150px;
-        vertical-align: top;
-        margin-right: 20px;
-    }
+}
+.link-choices__item {
+    cursor: pointer;
+    display: inline-block;
+    width: 150px;
+    vertical-align: top;
+    margin-right: 20px;
+}
+.link-choices__item--disabled {
+    cursor: not-allowed;
+    opacity: .4;
 }
 
 //

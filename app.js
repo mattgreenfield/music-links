@@ -56,6 +56,19 @@ function renderNewPerson(name, linkedFrom) {
     buildPage();
 };
 
+// Function to check if a person is already on the page
+function alreadyOnPage(personToCheck) {
+
+    for( var i = 0; i < peopleToShowArray.length; i++){
+        if( peopleToShowArray[i].person == personToCheck){
+            // console.log(personToCheck + " is already on the page.");
+            return true;
+        }
+    }
+
+}
+
+
 
 // Component: page
 var peopleToShowArray = [
@@ -130,7 +143,7 @@ var OutputLink = React.createClass({
             var peopleInLink = linksData[i].people;
             // console.log(peopleInLink);
 
-            // Check if the person whos card we are building is in this entry of the json
+            // Check if the two people we are linking are in this array
             if( peopleInLink.indexOf(linkedFrom) != -1 && peopleInLink.indexOf(linkedTo) != -1){
                 // console.log("we have a link");
 
@@ -147,9 +160,11 @@ var OutputLink = React.createClass({
 // Component: link options
 var OutputLinkOptions = React.createClass({
 
+    // Render a new person when one of the link options is clicked
     clickEvent: function(linkingTo, linkedFrom) {
         renderNewPerson(linkingTo, linkedFrom)
     },
+
     render: function() {
 
         // Get the person we want to find links for
@@ -171,15 +186,24 @@ var OutputLinkOptions = React.createClass({
                 for (var a = 0; a < peopleInLink.length; a++) {
                     // the person we're linking too
                     var linkingTo = peopleInLink[a];
+                    var itemClass = "link-choices__item";
 
                     // Don't output the person as a link to themselves OR if they are already on the page
                     if( linkingTo != linkedFrom ){
+
                         // Get the data for this person
                         GetPersonData(linkingTo);
                         // Note: the onClick may look a bit odd, really its just `onClick="renderNewPerson(name)"`. See http://stackoverflow.com/a/20446806/3098555
                         var clickEvent = this.clickEvent.bind(null, linkingTo, linkedFrom);
+
+                        // Check the 'peopleToShowArray' to see if that person is already on the page. Remove the click to add person and add a modifier class for the css
+                        if( alreadyOnPage(linkingTo) ){
+                            clickEvent = "";
+                            itemClass += " link-choices__item--disabled";
+                        };
+
                         // Add the markup
-                        links.push(<li key={a} onClick={clickEvent} ><p>{personFullName}</p><img src={personPicture}/></li>);
+                        links.push(<li key={a} onClick={clickEvent} className={itemClass}><p>{personFullName}</p><img src={personPicture}/></li>);
                     }
                 }
             }
