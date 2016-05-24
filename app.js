@@ -27,18 +27,18 @@ function getPeople(){
 
 function buildPage(){
     ReactDOM.render(
-        <OutputPeople />,
+        <OutputPage />,
         document.getElementById('page')
     );
 }
 
 // Component: page
 var peopleToShowArray = [
-    {person: 'john', link: 'nobody'}
+    {person: 'john', link: 'john'}
 ];
 // console.log(peopleToShowArray);
 
-var OutputPeople = React.createClass({
+var OutputPage = React.createClass({
 
     render: function() {
 
@@ -46,7 +46,7 @@ var OutputPeople = React.createClass({
         var peopleList = [];
         var lastPerson;
         for(var i = 0; i < peopleToShowArray.length; i++){
-            peopleList.push(<div className="row row--artist" parent=""><OutputPerson key={peopleToShowArray[i]} name={peopleToShowArray[i].person} linkedFrom={peopleToShowArray[i].link}/></div>);
+            peopleList.push(<div className="row row--artist">< OutputLink linkedFrom={peopleToShowArray[i].link} linkedTo={peopleToShowArray[i].person} /><OutputPerson key={peopleToShowArray[i]} name={peopleToShowArray[i].person} linkedFrom={peopleToShowArray[i].link}/></div>);
             lastPerson = peopleToShowArray[i].person;
         }
         // console.log(lastPerson);
@@ -55,7 +55,7 @@ var OutputPeople = React.createClass({
         return (
             <main>
                 {peopleList}
-                < OutputLinks name={lastPerson}/>
+                < OutputLinkOptions name={lastPerson}/>
             </main>
         );
     }
@@ -92,6 +92,7 @@ var OutputPerson = React.createClass({
         var person = String(this.props.name);
         var linkedFrom = this.props.linkedFrom;
 
+
         // console.log(person);
 
         var clickEvent;
@@ -99,6 +100,9 @@ var OutputPerson = React.createClass({
         if(this.props.link){
             // Note: the onClick may look a bit odd, really its just `onClick="renderNewPerson(name)"`. See http://stackoverflow.com/a/20446806/3098555
             clickEvent = this.renderNewPerson.bind(null, person, linkedFrom);
+        }
+        else {
+            // TODO: Reset the chain up to this person, maybe with a "are you sure"
         }
 
         return (
@@ -108,7 +112,6 @@ var OutputPerson = React.createClass({
                     </div>
                     <div className="artist__text">
                         <h1>{peopleData[person].name.first} {peopleData[person].name.last}</h1>
-                        <p>Above me is.. {linkedFrom}</p>
                     </div>
                 </article>
         );
@@ -116,8 +119,34 @@ var OutputPerson = React.createClass({
 });
 
 
-// Component: links
-var OutputLinks = React.createClass({
+// Component: link. The line that connects two artists
+var OutputLink = React.createClass({
+
+    render: function() {
+        var linkedFrom = this.props.linkedFrom;
+        var linkedTo = this.props.linkedTo;
+        var linkDescription;
+        for(var i = 0; i < linksData.length; i++){
+
+            var peopleInLink = linksData[i].people;
+            // console.log(peopleInLink);
+
+            // Check if the person whos card we are building is in this entry of the json
+            if( peopleInLink.indexOf(linkedFrom) != -1 && peopleInLink.indexOf(linkedTo) != -1){
+                // console.log("we have a link");
+
+                linkDescription = linksData[i].description;
+            }
+
+        }
+
+        return <div className="link"><div className="link__content">{linkDescription}</div></div>;
+    }
+});
+
+
+// Component: link options
+var OutputLinkOptions = React.createClass({
 
     render: function() {
 
@@ -130,7 +159,6 @@ var OutputLinks = React.createClass({
         for(var i = 0; i < linksData.length; i++){
 
             var peopleInLink = linksData[i].people;
-            var linkDescription = linksData[i].description;
             // console.log(peopleInLink);
 
             // Check if the person whos card we are building is in this entry of the json
@@ -143,7 +171,7 @@ var OutputLinks = React.createClass({
 
                     // Don't output the person as a link to themselves
                     // @TODO: stop it outputting if the name is already in the `links` array / on the page?
-                    if(name != person){
+                    if(linkName != person){
                         links.push(<OutputPerson key={a} name={linkName} linkedFrom={person} link="true"/>);
                     }
                 }

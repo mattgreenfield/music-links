@@ -44,6 +44,9 @@
         .artist {
             margin-bottom: 1em;
             padding: 1em;
+            background: white;
+            color: black;
+            border-radius: 5px;
         }
         .artist__image {
             overflow: hidden;
@@ -51,10 +54,20 @@
             padding-right: 2em;
         }
 
+        .row {
+            max-width: 900px;
+            margin: auto;
+            padding: 3em 1em;
+        }
         .row--artist .artist {
             max-width: 600px;
             display: block;
-            margin: auto;
+            margin-left: auto;
+            margin-right: 4em;
+        }
+        .row--artist:nth-child(odd) .artist{
+            margin-right: auto;
+            margin-left: 4em;
         }
         .row--artist .artist__image,
         .row--artist .artist__text {
@@ -70,22 +83,41 @@
             display: inline-block;
             max-width: 200px;
         }
-        .row--links .artist__text p {
-            /*display: none;*/
+
+        .link {
+            position: relative;
+            width: 70px;
+            height: 70px;
+            border: 2px solid black;
+            border-radius: 100%;
+            display: block;
+            margin: 5em;
+            background: white;
+        }
+
+        .link:before {
+            content: "";
+            width: 2px;
+            height: 200px;
+            display: block;
+            background: black;
+            position: absolute;
+            left: 50%;
+            top: -50%;
+            z-index: -1;
+            transform: rotate(30deg);
+        }
+
+        .link__content {
+            display: none;
+        }
+        .link:hover .link__content {
+            display: block;
         }
 
 
 
-        .row {
-            padding: 1em;
-            border-bottom: 1px solid black;
-        }
-        .row:nth-child(2n+2){
-            background: #4C515A;
-        }
-        .row:nth-child(3n+3){
-            background: #6D737D;
-        }
+
     </style>
 </body>
 </html>
