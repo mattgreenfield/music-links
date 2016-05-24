@@ -179,6 +179,6 @@ var OutputLinkOptions = React.createClass({
 
         }
 
-        return <div className="row row--links">{links}</div>
+        return <section className="row row--links"><h1>Choose A Link</h1>{links}</section>
     }
 })

@@ -1,0 +1,138 @@
+body,
+body * {
+    box-sizing: border-box;
+}
+body {
+    background: $body-background;
+    color: $content-background;
+    font-family: sans-serif;
+    margin: 0;
+}
+img {
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+}
+
+//
+// Animations
+
+// https://github.com/IanLunn/Hover/blob/master/css/hover.css#L54
+@keyframes hvr-pulse {
+  0% {
+    transform: scale(1);
+  }
+
+  75% {
+    transform: scale(0.95);
+  }
+}
+
+
+//
+// Artist
+
+.artist {
+    margin-bottom: 3em;
+    padding: 1em;
+    background: $content-background;
+    color: black;
+    border-radius: 5px;
+}
+.artist__image {
+    overflow: hidden;
+    margin-bottom: 1em;
+    padding-right: 2em;
+
+    img {
+        border-radius: 100%;
+    }
+}
+
+
+
+//
+// Row
+
+.row {
+    max-width: 900px;
+    margin: auto;
+}
+.row--artist .artist {
+    max-width: 600px;
+    display: block;
+    margin-left: auto;
+    margin-right: 4em;
+}
+.row--artist:nth-child(odd) .artist{
+    margin-right: auto;
+    margin-left: 4em;
+}
+.row--artist .artist__image,
+.row--artist .artist__text {
+    display: inline-block;
+    vertical-align: top;
+    width: 50%;
+}
+
+.row--links {
+    text-align: center;
+}
+.row--links .artist {
+    display: inline-block;
+    max-width: 200px;
+    margin-right: 20px;
+    cursor: pointer;
+    &:hover {
+        animation-name: hvr-pulse;
+        animation-duration: .3s;
+        animation-timing-function: linear;
+        animation-iteration-count: 2;
+    }
+}
+
+
+
+//
+// Link
+
+.link {
+    margin: auto;
+    cursor: pointer;
+    position: relative;
+    width: 30px;
+    height: 30px;
+    border: 3px solid $content-background;
+    border-radius: 100%;
+    display: block;
+    margin-bottom: 5em;
+    background: $body-background;
+    &:hover {
+        animation-name: hvr-pulse;
+        animation-duration: .3s;
+        animation-timing-function: linear;
+        animation-iteration-count: 2;
+    }
+}
+
+.link:before {
+    content: "";
+    width: 2px;
+    height: 10em;
+    display: block;
+    background: $content-background;
+    position: absolute;
+    left: 50%;
+    bottom: -5em;
+    z-index: -1;
+}
+
+.link__content {
+    display: none;
+    position: absolute;
+    width: 300px;
+    left: 50px;
+}
+.link:hover .link__content {
+    display: block;
+}
