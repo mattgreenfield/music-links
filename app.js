@@ -1,6 +1,6 @@
 
-var peopleData = new Object();
-var linksData = new Object();
+var peopleData = new Array();
+var linksData = new Array();
 var currentlyDisplayedPeople = {};
 
 $.get("data/relationships.json", function (result) {
@@ -17,8 +17,30 @@ function getPeople(){
 
     $.get("data/people.json", function (result) {
 
+        // Get the people from people.json
         peopleData = result[0];
-        // console.log(peopleData.john);
+        console.log(peopleData);
+
+        // Loop through all the relationships and add the people in them to the peopleData array (if they're not already in it).
+        for(var i = 0; i < linksData.length; i++){
+            var peopleInLink = linksData[i].people;
+            for(var a = 0; a < peopleInLink.length; a++){
+                var name = peopleInLink[a];
+                console.log(name);
+                // If they aren't already in it...
+                if( !peopleData.hasOwnProperty(name) ){
+                    // ...add this person to the peopleData object.
+                    peopleData[name] = {
+                        "picture": "http://www.clker.com/cliparts/A/Y/O/m/o/N/placeholder-hi.png",
+                        "name": camelToSpace(name),
+                        "about": ""
+                    };
+                }
+
+            }
+        }
+
+        console.log(peopleData);
 
         // Now we have the people data, run react and render the site
         buildPage();
@@ -32,13 +54,21 @@ function buildPage(){
     );
 }
 
-
+// Function. Helper
+// Convert camelCase to spaced
+function camelToSpace(str) {
+    // split by ' ' at the uppercase letter
+    var split =  str.replace(/\W+/g, ' ')
+            .replace(/([a-z\d])([A-Z])/g, '$1 $2');
+    // Return with the first letter uppercase also
+    return split.charAt(0).toUpperCase() + split.slice(1);
+}
 
 // Function: get person data
 var personPicture, personFullName, personBio;
 function GetPersonData(person){
     personPicture = peopleData[person].picture;
-    personFullName = peopleData[person].name.first + " " + peopleData[person].name.last;
+    personFullName = peopleData[person].name;
     personBio = peopleData[person].about;
 };
 
@@ -72,7 +102,7 @@ function alreadyOnPage(personToCheck) {
 
 // Component: page
 var peopleToShowArray = [
-    {person: 'paulMcCartney', link: 'georgeHarrison'}
+    {person: 'jeffBeck', link: 'georgeHarrison'}
 ];
 // console.log(peopleToShowArray);
 
@@ -84,8 +114,11 @@ var OutputPage = React.createClass({
         var peopleList = [];
         var lastPerson;
         for(var i = 0; i < peopleToShowArray.length; i++){
-            peopleList.push(<div className="row row--artist">< OutputLink linkedFrom={peopleToShowArray[i].link} linkedTo={peopleToShowArray[i].person} /><OutputPerson key={peopleToShowArray[i]} name={peopleToShowArray[i].person} linkedFrom={peopleToShowArray[i].link}/></div>);
+
             lastPerson = peopleToShowArray[i].person;
+            var key = "from-"+peopleToShowArray[i].link+"-to-"+peopleToShowArray[i].person;
+
+            peopleList.push(<div className="row row--artist">< OutputLink linkedFrom={peopleToShowArray[i].link} linkedTo={peopleToShowArray[i].person} /><OutputPerson key={key} name={peopleToShowArray[i].person} linkedFrom={peopleToShowArray[i].link}/></div>);
         }
         // console.log(lastPerson);
 
@@ -93,7 +126,7 @@ var OutputPage = React.createClass({
         return (
             <main>
                 {peopleList}
-                < OutputLinkOptions name={lastPerson}/>
+                < OutputLinkOptions linkedFrom={lastPerson}/>
                 <div className="connections-counter"><span>{peopleToShowArray.length - 1}</span> Connections</div>
             </main>
         );
@@ -168,7 +201,7 @@ var OutputLinkOptions = React.createClass({
     render: function() {
 
         // Get the person we want to find links for
-        var linkedFrom = this.props.name;
+        var linkedFrom = this.props.linkedFrom;
         var links = [];
         // console.log(linksData.length);
 
@@ -202,13 +235,16 @@ var OutputLinkOptions = React.createClass({
                             itemClass += " link-choices__item--disabled";
                         };
 
+                        var key = a + "-link-to-" + linkingTo + "-from-" + linkedFrom;
+
                         // Add the markup
-                        links.push(<li key={a} onClick={clickEvent} className={itemClass}><p>{personFullName}</p><img src={personPicture}/></li>);
+                        links.push(<li key={key} onClick={clickEvent} className={itemClass}><p>{personFullName}</p><img src={personPicture}/></li>);
                     }
                 }
             }
 
         }
+        // console.log(links);
 
         return <section className="row row--links"><h1>Choose A Link</h1><ul className="link-choices">{links}</ul></section>
     }

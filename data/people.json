@@ -79,5 +79,12 @@
         "last": "Womack"
         },
         "about": ""
+    },
+    "ericClapton": {
+        "picture": "http://cdn.amazingradios.com/blues/2014/11/eric.jpg",
+        "name": "Eric Clapton",
+        "about": "Guitarist and lover of the Fender strat."
     }
+
+
 }]

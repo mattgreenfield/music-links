@@ -40,6 +40,30 @@
         "description": "The Jeff Beck Group"
     },
     {
+        "people": ["ericClapton","jeffBeck","jimmyPage"],
+        "description": "All members of The Yardbirds"
+    },
+    {
+        "people": ["steveWinwood", "jimCapaldi", "chrisWood", "daveMason"],
+        "description": "All members of Traffic"
+    },
+    {
+        "people": ["ericClapton","jackBruce","gingerBaker"],
+        "description": "All members of Cream"
+    },
+    {
+        "people": ["ericClapton","steveWinwood","gingerBaker","ricGrech"],
+        "description": "All members of Blind Faith"
+    },
+    {
+        "people": ["johnMayer","ericClapton"],
+        "description": "John Mayer has played at lots of Eric Claptons Crossroad Festivals"
+    },
+    {
+        "people": ["steveJordan","ericClapton"],
+        "description": "Steve toured as Erics drummer for many years"
+    },
+    {
         "people": ["johnMayer","steveJordan","pinoPalladino"],
         "description": "The John Mayer Trio. They met..."
     },
