@@ -72,7 +72,7 @@ function alreadyOnPage(personToCheck) {
 
 // Component: page
 var peopleToShowArray = [
-    {person: 'john', link: 'john'}
+    {person: 'paulMcCartney', link: 'georgeHarrison'}
 ];
 // console.log(peopleToShowArray);
 

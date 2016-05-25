@@ -1,14 +1,58 @@
 [
     {
-        "people": ["george","paul","john","ringo"],
+        "people": ["georgeHarrison","paulMcCartney","johnLennon","ringoStarr"],
         "description": "They are linked because they were all in The Beatles"
     },
     {
-        "people": ["weller","george"],
-        "description": "They are linked because they were all on a limited edition 12\" release in the 90's"
+        "people": ["paulWeller","grahamCoxon"],
+        "description": "Worked together on the single 'This old town', release in...."
     },
     {
-        "people": ["barry","clive","weller","ringo"],
-        "description": "Barry and Clive used to date."
+        "people": ["grahamCoxon","alexJames","damonAlbarn","daveRowntree"],
+        "description": "Members of britop sensation 'Blur'"
+    },
+    {
+        "people": ["bobbyWomack","damonAlbarn"],
+        "description": "Worked together as part of 'Gorillaz'."
+    },
+    {
+        "people": ["paulMcCartney","kanyeWest"],
+        "description": "Recorded a single together'."
+    },
+    {
+        "people": ["ericBibb","steveSimpson","daveBronze"],
+        "description": "Steve Simpson and Dave Bronze have toured together as the backing band for Eric Bibb"
+    },
+    {
+        "people": ["steveSimpson","ronnieLane"],
+        "description": "Ronnie Lanes & Slim Chance"
+    },
+    {
+        "people": ["ronnieWood","ronnieLane","rodStewart","ianMclagan"],
+        "description": "The Faces"
+    },
+    {
+        "people": ["steveMarriot","ronnieLane","ianMclagan","kennyJones","jimmyWinston"],
+        "description": "The Small Faces"
+    },
+    {
+        "people": ["ronnieWood","jeffBeck","rodStewart"],
+        "description": "The Jeff Beck Group"
+    },
+    {
+        "people": ["johnMayer","steveJordan","pinoPalladino"],
+        "description": "The John Mayer Trio. They met..."
+    },
+    {
+        "people": ["questLove","pinoPalladino"],
+        "description": "Superjam"
+    },
+    {
+        "people": ["questLove","elvisCostello"],
+        "description": "Made an albums together, 'Wise Up Ghost'"
+    },
+    {
+        "people": ["questLove","bettyWright"],
+        "description": "Made an albums together, 'Betty Wright: The Movie'"
     }
 ]

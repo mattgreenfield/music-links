@@ -1,6 +1,6 @@
 [{
 
-    "george": {
+    "georgeHarrison": {
         "picture": "http://a2.files.biography.com/image/upload/c_fit,cs_srgb,dpr_1.0,q_80,w_620/MTI3ODgzMTQ1MTU5NzAwNDUw.jpg",
         "name": {
           "first": "George",
@@ -8,7 +8,7 @@
         },
         "about": "Mollit minim adipisicing labore culpa laborum Lorem. Officia anim veniam commodo sit aliqua. Duis aute magna ea et. Labore eu qui duis pariatur ea pariatur nostrud pariatur. Est sint do quis et minim minim nostrud amet id incididunt occaecat. Eu incididunt sit anim dolore consequat qui consectetur non. Velit nulla minim dolore fugiat ad exercitation ipsum consectetur."
     },
-    "paul": {
+    "paulMcCartney": {
         "picture": "https://s-media-cache-ak0.pinimg.com/736x/85/3d/e2/853de2b8224c681079a3a66111bd97ec.jpg",
         "name": {
           "first": "Paul",
@@ -16,7 +16,7 @@
         },
         "about": "Mollit minim adipisicing labore culpa laborum Lorem. Officia anim veniam commodo sit aliqua. Duis aute magna ea et. Labore eu qui duis pariatur ea pariatur nostrud pariatur. Est sint do quis et minim minim nostrud amet id incididunt occaecat. Eu incididunt sit anim dolore consequat qui consectetur non. Velit nulla minim dolore fugiat ad exercitation ipsum consectetur."
     },
-    "john": {
+    "johnLennon": {
         "picture": "http://www.straight.com/files/v3/images/15/12/johnlennon.jpg",
         "name": {
         "first": "John",
@@ -24,7 +24,7 @@
         },
         "about": "Mollit minim adipisicing labore culpa laborum Lorem. Officia anim veniam commodo sit aliqua. Duis aute magna ea et. Labore eu qui duis pariatur ea pariatur nostrud pariatur. Est sint do quis et minim minim nostrud amet id incididunt occaecat. Eu incididunt sit anim dolore consequat qui consectetur non. Velit nulla minim dolore fugiat ad exercitation ipsum consectetur."
     },
-    "ringo": {
+    "ringoStarr": {
         "picture": "https://streetsandstyle.files.wordpress.com/2014/07/169.jpg",
         "name": {
         "first": "Ringo",
@@ -32,7 +32,7 @@
         },
         "about": "Mollit minim adipisicing labore culpa laborum Lorem. Officia anim veniam commodo sit aliqua. Duis aute magna ea et. Labore eu qui duis pariatur ea pariatur nostrud pariatur. Est sint do quis et minim minim nostrud amet id incididunt occaecat. Eu incididunt sit anim dolore consequat qui consectetur non. Velit nulla minim dolore fugiat ad exercitation ipsum consectetur."
     },
-    "weller": {
+    "paulWeller": {
         "picture": "/",
         "name": {
         "first": "Paul",
@@ -40,20 +40,44 @@
         },
         "about": "The Modfather"
     },
-    "barry": {
+    "damonAlbarn": {
         "picture": "/",
         "name": {
-        "first": "Barry",
-        "last": "Moon"
+        "first": "Damon",
+        "last": "Albarn"
         },
-        "about": "The mood maker"
+        "about": ""
     },
-    "clive": {
+    "alexJames": {
         "picture": "/",
         "name": {
-        "first": "Clive",
-        "last": "May"
+        "first": "Alex",
+        "last": "James"
         },
-        "about": "or he might not"
+        "about": "Bassist in Blur"
+    },
+    "grahamCoxon": {
+        "picture": "/",
+        "name": {
+        "first": "Graham",
+        "last": "Coxon"
+        },
+        "about": "Guitarist in Blur"
+    },
+    "daveRowntree": {
+        "picture": "/",
+        "name": {
+        "first": "Dave",
+        "last": "Rowntree"
+        },
+        "about": "Drummer in Blur"
+    },
+    "bobbyWomack": {
+        "picture": "/",
+        "name": {
+        "first": "Bobby",
+        "last": "Womack"
+        },
+        "about": ""
     }
 }]
