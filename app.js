@@ -19,8 +19,9 @@ function getPeople(){
 
         // Get the people from people.json
         peopleData = result[0];
-        console.log(peopleData);
+        // console.log(peopleData);
 
+        // make sure we've missed nobody
         // Loop through all the relationships and add the people in them to the peopleData array (if they're not already in it).
         for(var i = 0; i < linksData.length; i++){
             var peopleInLink = linksData[i].people;
@@ -40,7 +41,7 @@ function getPeople(){
             }
         }
 
-        console.log(peopleData);
+        // console.log(peopleData);
 
         // Now we have the people data, run react and render the site
         buildPage();
