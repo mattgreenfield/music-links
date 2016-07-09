@@ -33,7 +33,7 @@ img {
 // Artist
 
 .artist {
-    margin-bottom: 3em;
+    margin-bottom: 7em;
     padding: 1em;
     background: $content-background;
     color: black;
@@ -57,6 +57,7 @@ img {
 .row {
     max-width: 900px;
     margin: auto;
+    position: relative;
 }
 .row--artist .artist {
     max-width: 600px;
@@ -115,7 +116,20 @@ img {
 // Link - the line between two people
 
 .link {
-    margin: auto;
+    width: 2px;
+    height: 10em;
+    display: block;
+    background: $content-background;
+    position: absolute;
+    left: 50%;
+    top: -9em;
+    z-index: -1;
+}
+
+.link:before {
+    content: "";
+    margin-top: 4em;
+    margin-left: -1em;
     cursor: pointer;
     position: relative;
     width: 30px;
@@ -125,36 +139,29 @@ img {
     display: block;
     margin-bottom: 5em;
     background: $body-background;
-    &:hover {
+    // &:hover {
         animation-name: hvr-pulse;
         animation-duration: .3s;
         animation-timing-function: linear;
-        animation-iteration-count: 2;
-    }
-}
-
-.link:before {
-    content: "";
-    width: 2px;
-    height: 10em;
-    display: block;
-    background: $content-background;
-    position: absolute;
-    left: 50%;
-    bottom: -5em;
-    z-index: -1;
+        animation-iteration-count: infinite;
+    // }
 }
 
 .link__content {
-    display: none;
+    // display: none;
     position: absolute;
     width: 300px;
     left: 50px;
+    top: 70px;
 }
 .link:hover .link__content {
     display: block;
 }
 
+// Hide the first link because it links to nothing
+.row:first-child .link {
+    display: none;
+}
 
 //
 // Connections Counter
