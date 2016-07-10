@@ -118,15 +118,35 @@ var OutputPage = React.createClass({
 // Component: output a person card
 var OutputPerson = React.createClass({
 
+    getInitialState: function() {
+        return {
+            description: '',
+            name: ''
+        };
+    },
+
+    componentDidMount: function() {
+        var person = String(this.props.name);
+
+        // Run the call to wikipedia api and set the Reat component state with its response
+        wikiData(person, function(wikiDataResponse){
+            this.setState({
+                description: wikiDataResponse.description,
+                name: wikiDataResponse.name
+            });
+        }.bind(this));
+
+    },
+
     render: function() {
+
         // the name passed to this function
         var person = String(this.props.name);
         var linkedFrom = this.props.linkedFrom;
+        // console.log(person);
 
         // Get the data for this person
         GetPersonData(person);
-
-        // console.log(person);
 
         return (
                 <article className="artist">
@@ -134,8 +154,8 @@ var OutputPerson = React.createClass({
                         <img src={personPicture} />
                     </div>
                     <div className="artist__text">
-                        <h1>{personFullName}</h1>
-                        <p>{personBio}</p>
+                        <h1>{this.state.name}</h1>
+                        <p>{this.state.description}</p>
                     </div>
                 </article>
         );

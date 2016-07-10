@@ -30,6 +30,7 @@ var jsFiles = {
   ],
   source: [
     '../data/*.js',
+    '../js/*.js',
     '../app.js',
 
   ]
@@ -68,10 +69,10 @@ gulp.task('copy-react-dom', function() {
 gulp.task('concat', ['copy-react', 'copy-react-dom', 'eslint'], function() {
   return gulp.src(jsFiles.vendor.concat(jsFiles.source))
     .pipe(sourcemaps.init())
-    .pipe(babel({
-      compact: false
-    }))
     .pipe(concat('app.js'))
+    .pipe(babel({
+        compact: false
+    }))
     .pipe(sourcemaps.write('./'))
     .pipe(gulp.dest('../../assets/js'));
 });

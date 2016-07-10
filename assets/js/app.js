@@ -59,7 +59,6 @@ var peopleData = [{
     }
 
 }];
-"use strict";
 
 var linksData = [{
     "people": ["georgeHarrison", "paulMcCartney", "johnLennon", "ringoStarr"],
@@ -170,7 +169,59 @@ var linksData = [{
     "people": ["donaldFagen", "steveJordan"],
     "description": "Steve Jordan has drummed on a few of Fagens solo albums"
 }];
-"use strict";
+
+// Function to return info from wikipedia
+function wikiData(searchTerm, callBack) {
+
+    // replace spaces with %20 etc etc.
+    var searchTerm = encodeURIComponent(searchTerm.trim());
+
+    var article = {
+        name: "",
+        description: "",
+        url: ""
+    };
+
+    $.ajax({
+        // Search wikipedia for our term
+        url: 'https://en.wikipedia.org/w/api.php?action=query&format=json&list=search&utf8=1&srsearch=' + searchTerm,
+        data: {
+            format: 'json'
+        },
+        dataType: 'jsonp',
+        success: function success(data) {
+
+            // Get the title of the first search result
+            var pageTitle = data.query.search[0].title;
+            // console.log(pageTitle);
+
+            // Get the data of contents of that page
+            $.ajax({
+                url: 'https://en.wikipedia.org/w/api.php?action=opensearch&limit=1&format=xml&search=' + pageTitle + '&namespace=0',
+                data: {
+                    format: 'json'
+                },
+                dataType: 'jsonp',
+                success: function success(data) {
+                    // console.log(data);
+
+                    article.name = data[1][0];
+                    article.description = data[2][0];
+                    article.url = data[3][0];
+                    // @TODO Load the image
+
+                    if (typeof callBack === 'function') {
+                        callBack(article);
+                    }
+                    // console.log(article);
+                    // return article;
+                },
+                type: 'GET'
+            });
+        },
+        type: 'GET'
+    });
+} // end function
 
 var currentlyDisplayedPeople = {};
 
@@ -294,15 +345,39 @@ var OutputPage = React.createClass({
 var OutputPerson = React.createClass({
     displayName: "OutputPerson",
 
+    getInitialState: function getInitialState() {
+        return {
+            description: '',
+            name: ''
+        };
+    },
+
+    componentDidMount: function componentDidMount() {
+        var person = String(this.props.name);
+
+        wikiData(person, (function (wikiDataResponse) {
+            this.setState({
+                description: wikiDataResponse.description,
+                name: wikiDataResponse.name
+            });
+        }).bind(this));
+    },
+
     render: function render() {
+
         // the name passed to this function
         var person = String(this.props.name);
         var linkedFrom = this.props.linkedFrom;
+        // console.log(person);
 
         // Get the data for this person
         GetPersonData(person);
 
-        // console.log(person);
+        // var wikipedia = wikiData(person, function(wikiDataResponse){
+        //     console.log("calling back");
+        //     console.log(wikiDataResponse);
+        // });
+        console.log(this.state);
 
         return React.createElement(
             "article",
@@ -318,12 +393,12 @@ var OutputPerson = React.createClass({
                 React.createElement(
                     "h1",
                     null,
-                    personFullName
+                    this.state.name
                 ),
                 React.createElement(
                     "p",
                     null,
-                    personBio
+                    this.state.description
                 )
             )
         );
