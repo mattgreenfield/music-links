@@ -31,16 +31,7 @@ function checkPeople(){
 
 checkPeople();
 console.log(peopleData);
-// Now we have the people data, run react and render the site
-buildPage();
 
-
-function buildPage(){
-    ReactDOM.render(
-        <OutputPage />,
-        document.getElementById('page')
-    );
-}
 
 // Function. Helper
 // Convert camelCase to spaced
@@ -237,3 +228,16 @@ var OutputLinkOptions = React.createClass({
         return <section className="row row--links"><h1>Choose A Link</h1><ul className="link-choices">{links}</ul></section>
     }
 })
+
+
+//
+// Initial page setup
+
+function buildPage(){
+    ReactDOM.render(
+        <OutputPage />,
+        document.getElementById('page')
+    );
+}
+
+buildPage();
