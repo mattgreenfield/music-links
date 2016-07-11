@@ -1,13 +1,10 @@
 
 var currentlyDisplayedPeople = {};
 
+var peopleData = {};
+
 function checkPeople(){
 
-    // Get the people data
-    peopleData = peopleData[0];
-    // console.log(peopleData);
-
-    // make sure we've missed nobody
     // Loop through all the relationships and add the people in them to the peopleData array (if they're not already in it).
     for(var i = 0; i < linksData.length; i++){
         var peopleInLink = linksData[i].people;

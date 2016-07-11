@@ -1,65 +1,5 @@
 "use strict";
 
-var peopleData = [{
-
-    "georgeHarrison": {
-        "picture": "http://a2.files.biography.com/image/upload/c_fit,cs_srgb,dpr_1.0,q_80,w_620/MTI3ODgzMTQ1MTU5NzAwNDUw.jpg",
-        "name": "George Harrison",
-        "about": "Mollit minim adipisicing labore culpa laborum Lorem."
-    },
-    "paulMcCartney": {
-        "picture": "https://s-media-cache-ak0.pinimg.com/736x/85/3d/e2/853de2b8224c681079a3a66111bd97ec.jpg",
-        "name": "Paul McCartney",
-        "about": "Mollit minim adipisicing labore culpa laborum Lorem."
-    },
-    "johnLennon": {
-        "picture": "http://www.straight.com/files/v3/images/15/12/johnlennon.jpg",
-        "name": "John Lennon",
-        "about": "Mollit minim adipisicing labore culpa laborum Lorem."
-    },
-    "ringoStarr": {
-        "picture": "https://streetsandstyle.files.wordpress.com/2014/07/169.jpg",
-        "name": "Ringo Starr",
-        "about": "Mollit minim adipisicing labore culpa laborum Lorem."
-    },
-    "paulWeller": {
-        "picture": "/",
-        "name": "Paul Weller",
-        "about": "The Modfather"
-    },
-    "damonAlbarn": {
-        "picture": "/",
-        "name": "Damon Albarn",
-        "about": ""
-    },
-    "alexJames": {
-        "picture": "/",
-        "name": "Alex James",
-        "about": "Bassist in Blur"
-    },
-    "grahamCoxon": {
-        "picture": "/",
-        "name": "Graham Coxon",
-        "about": "Guitarist in Blur"
-    },
-    "daveRowntree": {
-        "picture": "/",
-        "name": "Dave Rowntree",
-        "about": "Drummer in Blur"
-    },
-    "bobbyWomack": {
-        "picture": "/",
-        "name": "Bobby Womack",
-        "about": ""
-    },
-    "ericClapton": {
-        "picture": "http://cdn.amazingradios.com/blues/2014/11/eric.jpg",
-        "name": "Eric Clapton",
-        "about": "Guitarist and lover of the Fender strat."
-    }
-
-}];
-
 var linksData = [{
     "people": ["georgeHarrison", "paulMcCartney", "johnLennon", "ringoStarr"],
     "description": "They are linked because they were all in The Beatles"
@@ -174,7 +114,7 @@ var linksData = [{
 function wikiData(searchTerm, callBack) {
 
     // replace spaces with %20 etc etc.
-    var searchTerm = encodeURIComponent(searchTerm.trim());
+    var searchTerm = encodeURIComponent(camelToSpace(searchTerm));
 
     var article = {
         name: "",
@@ -184,40 +124,36 @@ function wikiData(searchTerm, callBack) {
 
     $.ajax({
         // Search wikipedia for our term
-        url: 'https://en.wikipedia.org/w/api.php?action=query&format=json&list=search&utf8=1&srsearch=' + searchTerm,
+        // url:'https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch='+ searchTerm +'%22AND%22Born%22AND%22Occupation%22&format=jsonfm&srprop=snippet&srlimit=1',
+        url: 'https://en.wikipedia.org/w/api.php?action=query&list=embeddedin&titles=' + searchTerm + '&prop=extracts&eititle=Template%E2%80%8C%E2%80%8B:Persondata&format=json',
+        // url: 'https://en.wikipedia.org/w/api.php?action=query&format=json&list=search&utf8=1&srsearch='+ searchTerm,
         data: {
             format: 'json'
         },
         dataType: 'jsonp',
         success: function success(data) {
+            console.log(data);
 
-            // Get the title of the first search result
-            var pageTitle = data.query.search[0].title;
-            // console.log(pageTitle);
+            // Get first object within object (the first search result). See http://stackoverflow.com/a/909058/3098555
+            var obj = data.query.pages;
+            var article;
+            for (var i in obj) {
+                if (obj.hasOwnProperty(i) && typeof i !== 'function') {
+                    article = obj[i];
+                    break;
+                }
+            }
+            console.log(article);
 
-            // Get the data of contents of that page
-            $.ajax({
-                url: 'https://en.wikipedia.org/w/api.php?action=opensearch&limit=1&format=xml&search=' + pageTitle + '&namespace=0',
-                data: {
-                    format: 'json'
-                },
-                dataType: 'jsonp',
-                success: function success(data) {
-                    // console.log(data);
+            // Set the name and description as the result from wikipedia
+            article.name = article.title;
+            article.description = article.extract;
+            // article.url = data[3][0];
+            // @TODO Load the image
 
-                    article.name = data[1][0];
-                    article.description = data[2][0];
-                    article.url = data[3][0];
-                    // @TODO Load the image
-
-                    if (typeof callBack === 'function') {
-                        callBack(article);
-                    }
-                    // console.log(article);
-                    // return article;
-                },
-                type: 'GET'
-            });
+            if (typeof callBack === 'function') {
+                callBack(article);
+            }
         },
         type: 'GET'
     });
@@ -225,13 +161,10 @@ function wikiData(searchTerm, callBack) {
 
 var currentlyDisplayedPeople = {};
 
+var peopleData = {};
+
 function checkPeople() {
 
-    // Get the people data
-    peopleData = peopleData[0];
-    // console.log(peopleData);
-
-    // make sure we've missed nobody
     // Loop through all the relationships and add the people in them to the peopleData array (if they're not already in it).
     for (var i = 0; i < linksData.length; i++) {
         var peopleInLink = linksData[i].people;
@@ -355,6 +288,7 @@ var OutputPerson = React.createClass({
     componentDidMount: function componentDidMount() {
         var person = String(this.props.name);
 
+        // Run the call to wikipedia api and set the Reat component state with its response
         wikiData(person, (function (wikiDataResponse) {
             this.setState({
                 description: wikiDataResponse.description,
@@ -372,12 +306,6 @@ var OutputPerson = React.createClass({
 
         // Get the data for this person
         GetPersonData(person);
-
-        // var wikipedia = wikiData(person, function(wikiDataResponse){
-        //     console.log("calling back");
-        //     console.log(wikiDataResponse);
-        // });
-        console.log(this.state);
 
         return React.createElement(
             "article",

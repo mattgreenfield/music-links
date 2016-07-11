@@ -2,53 +2,46 @@
 function wikiData(searchTerm, callBack) {
 
     // replace spaces with %20 etc etc.
-    var searchTerm = encodeURIComponent(searchTerm.trim());
+    var searchTerm = encodeURIComponent( camelToSpace(searchTerm) );
 
     var article = {
-        title: "",
+        name: "",
         description: "",
         url: ""
     };
 
     $.ajax({
         // Search wikipedia for our term
-        url: 'https://en.wikipedia.org/w/api.php?action=query&format=json&list=search&utf8=1&srsearch='+ searchTerm,
+        // url:'https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch='+ searchTerm +'%22AND%22Born%22AND%22Occupation%22&format=jsonfm&srprop=snippet&srlimit=1',
+        url: 'https://en.wikipedia.org/w/api.php?action=query&list=embeddedin&titles='+ searchTerm +'&prop=extracts&eititle=Template%E2%80%8C%E2%80%8B:Persondata&format=json',
+        // url: 'https://en.wikipedia.org/w/api.php?action=query&format=json&list=search&utf8=1&srsearch='+ searchTerm,
         data: {
             format: 'json'
         },
         dataType: 'jsonp',
         success: function(data) {
+            console.log(data);
 
-            // Get the title of the first search result
-            var pageTitle = data.query.search[0].title;
-            // console.log(pageTitle);
+            // Get first object within object (the first search result). See http://stackoverflow.com/a/909058/3098555
+            var obj = data.query.pages;
+            var article;
+            for (var i in obj) {
+                if (obj.hasOwnProperty(i) && typeof(i) !== 'function') {
+                    article = obj[i];
+                    break;
+                }
+            }
+            console.log(article);
 
-            // Get the data of contents of that page
-            $.ajax({
-                url: 'https://en.wikipedia.org/w/api.php?action=opensearch&limit=1&format=xml&search='+ pageTitle +'&namespace=0',
-                data: {
-                    format: 'json'
-                },
-                dataType: 'jsonp',
-                success: function(data) {
-                    // console.log(data);
+            // Set the name and description as the result from wikipedia
+            article.name = article.title;
+            article.description = article.extract;
+            // article.url = data[3][0];
+            // @TODO Load the image
 
-                    article.title = data[1][0];
-                    article.description = data[2][0];
-                    article.url = data[3][0];
-                    // @TODO Load the image
-
-
-                    if( typeof(callBack)==='function'){
-                        callBack(article);
-                    }
-                    // console.log(article);
-                    // return article;
-
-
-                },
-                type: 'GET'
-            });
+            if( typeof(callBack)==='function'){
+                callBack(article);
+            }
 
         },
         type: 'GET'
