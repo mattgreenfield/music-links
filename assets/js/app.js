@@ -110,6 +110,38 @@ var linksData = [{
     "description": "Steve Jordan has drummed on a few of Fagens solo albums"
 }];
 
+var InitialState = React.createClass({
+    displayName: "InitialState",
+
+    //
+    clickEvent: function clickEvent(person) {
+        peopleToShowArray = [{ person: person, link: 'georgeHarrison' }];
+        console.log('Starting with ' + person);
+        ReactDOM.render(React.createElement(OutputPage, null), document.getElementById('page'));
+    },
+
+    render: function render() {
+
+        var _this = this;
+        //
+        return React.createElement(
+            "main",
+            null,
+            React.createElement(
+                "ul",
+                { className: "list--inline initial-list" },
+                peopleData.map(function (person) {
+                    return React.createElement(
+                        "li",
+                        { onClick: _this.clickEvent.bind(null, person), name: person },
+                        camelToSpace(person)
+                    );
+                })
+            )
+        );
+    }
+});
+
 // Function to return info from wikipedia
 function wikiData(searchTerm, callBack) {
 
@@ -148,9 +180,9 @@ function wikiData(searchTerm, callBack) {
     });
 } // end function
 
-var currentlyDisplayedPeople = {};
-
-var peopleData = {};
+var currentlyDisplayedPeople = {},
+    peopleData = [],
+    peopleToShowArray = [];
 
 function checkPeople() {
 
@@ -161,13 +193,9 @@ function checkPeople() {
             var name = peopleInLink[a];
             // console.log(name);
             // If they aren't already in it...
-            if (!peopleData.hasOwnProperty(name)) {
-                // ...add this person to the peopleData object.
-                peopleData[name] = {
-                    "picture": "http://www.clker.com/cliparts/A/Y/O/m/o/N/placeholder-hi.png",
-                    "name": camelToSpace(name),
-                    "about": ""
-                };
+            if (peopleData.indexOf(name) == -1) {
+                // ...add this person to the peopleData array.
+                peopleData.push(name);
             }
         }
     }
@@ -185,14 +213,6 @@ function camelToSpace(str) {
     return split.charAt(0).toUpperCase() + split.slice(1);
 }
 
-// Function: get person data
-var personPicture, personFullName, personBio;
-function GetPersonData(person) {
-    personPicture = peopleData[person].picture;
-    personFullName = peopleData[person].name;
-    personBio = peopleData[person].about;
-};
-
 // Function to render the given 'name' as a new card in the page
 function renderNewPerson(name, linkedFrom) {
 
@@ -203,7 +223,7 @@ function renderNewPerson(name, linkedFrom) {
     peopleToShowArray.push(object);
 
     // Rebuild the page with the new peopleToShowArray values
-    buildPage();
+    ReactDOM.render(React.createElement(OutputPage, null), document.getElementById('page'));
 };
 
 // Function to check if a person is already on the page
@@ -217,12 +237,13 @@ function alreadyOnPage(personToCheck) {
     }
 }
 
-// Component: page
-var peopleToShowArray = [{ person: 'jeffBeck', link: 'georgeHarrison' }];
-// console.log(peopleToShowArray);
-
 var OutputPage = React.createClass({
     displayName: "OutputPage",
+
+    clickEvent: function clickEvent() {
+        console.log('clicked reset');
+        ReactDOM.render(React.createElement(InitialState, null), document.getElementById('page'));
+    },
 
     render: function render() {
 
@@ -257,7 +278,12 @@ var OutputPage = React.createClass({
                     null,
                     peopleToShowArray.length - 1
                 ),
-                " Connections"
+                " Connections ",
+                React.createElement(
+                    "button",
+                    { onClick: this.clickEvent.bind() },
+                    "Start Again"
+                )
             )
         );
     }
@@ -293,16 +319,13 @@ var OutputPerson = React.createClass({
         var linkedFrom = this.props.linkedFrom;
         // console.log(person);
 
-        // Get the data for this person
-        GetPersonData(person);
-
         return React.createElement(
             "article",
             { className: "artist" },
             React.createElement(
                 "div",
                 { className: "artist__image" },
-                React.createElement("img", { src: personPicture })
+                React.createElement("img", { src: "" })
             ),
             React.createElement(
                 "div",
@@ -390,8 +413,6 @@ var OutputLinkOptions = React.createClass({
                     // Don't output the person as a link to themselves OR if they are already on the page
                     if (linkingTo != linkedFrom) {
 
-                        // Get the data for this person
-                        GetPersonData(linkingTo);
                         // Note: the onClick may look a bit odd, really its just `onClick="renderNewPerson(name)"`. See http://stackoverflow.com/a/20446806/3098555
                         var clickEvent = this.clickEvent.bind(null, linkingTo, linkedFrom);
 
@@ -410,9 +431,9 @@ var OutputLinkOptions = React.createClass({
                             React.createElement(
                                 "p",
                                 null,
-                                personFullName
+                                camelToSpace(linkingTo)
                             ),
-                            React.createElement("img", { src: personPicture })
+                            React.createElement("img", { src: "" })
                         ));
                     }
                 }
@@ -441,7 +462,7 @@ var OutputLinkOptions = React.createClass({
 // Initial page setup
 
 function buildPage() {
-    ReactDOM.render(React.createElement(OutputPage, null), document.getElementById('page'));
+    ReactDOM.render(React.createElement(InitialState, null), document.getElementById('page'));
 }
 
 buildPage();

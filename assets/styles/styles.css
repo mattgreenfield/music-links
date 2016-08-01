@@ -1,0 +1,141 @@
+body,
+body * {
+  box-sizing: border-box; }
+
+body {
+  background: #282C34;
+  color: whitesmoke;
+  font-family: sans-serif;
+  margin: 0; }
+
+img {
+  width: 100%;
+  max-width: 100%;
+  height: auto; }
+
+.list--inline li {
+  display: inline-block; }
+
+.initial-list li {
+  margin-right: 10px;
+  margin-bottom: 10px; }
+
+@keyframes hvr-pulse {
+  0% {
+    transform: scale(1); }
+  75% {
+    transform: scale(0.95); } }
+
+.artist {
+  margin-bottom: 7em;
+  padding: 1em;
+  background: whitesmoke;
+  color: black;
+  border-radius: 5px; }
+
+.artist__image {
+  overflow: hidden;
+  margin-bottom: 1em;
+  padding-right: 2em; }
+  .artist__image img {
+    border-radius: 100%; }
+
+.row {
+  max-width: 900px;
+  margin: auto;
+  position: relative; }
+
+.row--artist .artist {
+  max-width: 600px;
+  display: block;
+  margin-left: auto;
+  margin-right: 4em; }
+
+.row--artist:nth-child(odd) .artist {
+  margin-right: auto;
+  margin-left: 4em; }
+
+.row--artist .artist__image,
+.row--artist .artist__text {
+  display: inline-block;
+  vertical-align: top;
+  width: 50%; }
+
+.row--links {
+  text-align: center; }
+
+.row--links .artist {
+  display: inline-block;
+  max-width: 200px;
+  margin-right: 20px;
+  cursor: pointer; }
+  .row--links .artist:hover {
+    animation-name: hvr-pulse;
+    animation-duration: .3s;
+    animation-timing-function: linear;
+    animation-iteration-count: 2; }
+
+.link-choices {
+  margin: 0;
+  padding: 0;
+  list-style-type: none; }
+
+.link-choices__item {
+  cursor: pointer;
+  display: inline-block;
+  width: 150px;
+  vertical-align: top;
+  margin-right: 20px; }
+
+.link-choices__item--disabled {
+  cursor: not-allowed;
+  opacity: .4; }
+
+.link {
+  width: 2px;
+  height: 10em;
+  display: block;
+  background: whitesmoke;
+  position: absolute;
+  left: 50%;
+  top: -9em;
+  z-index: -1; }
+
+.link:before {
+  content: "";
+  margin-top: 4em;
+  margin-left: -1em;
+  cursor: pointer;
+  position: relative;
+  width: 30px;
+  height: 30px;
+  border: 3px solid whitesmoke;
+  border-radius: 100%;
+  display: block;
+  margin-bottom: 5em;
+  background: #282C34;
+  animation-name: hvr-pulse;
+  animation-duration: .3s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite; }
+
+.link__content {
+  position: absolute;
+  width: 300px;
+  left: 50px;
+  top: 70px; }
+
+.link:hover .link__content {
+  display: block; }
+
+.row:first-child .link {
+  display: none; }
+
+.connections-counter {
+  position: fixed;
+  bottom: 20px;
+  left: 20px; }
+  .connections-counter span {
+    font-size: 3rem; }
+
+/*# sourceMappingURL=styles.css.map */

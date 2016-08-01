@@ -1,7 +1,7 @@
 
-var currentlyDisplayedPeople = {};
-
-var peopleData = {};
+var currentlyDisplayedPeople = {},
+    peopleData = [],
+    peopleToShowArray = [];
 
 function checkPeople(){
 
@@ -12,13 +12,9 @@ function checkPeople(){
             var name = peopleInLink[a];
             // console.log(name);
             // If they aren't already in it...
-            if( !peopleData.hasOwnProperty(name) ){
-                // ...add this person to the peopleData object.
-                peopleData[name] = {
-                    "picture": "http://www.clker.com/cliparts/A/Y/O/m/o/N/placeholder-hi.png",
-                    "name": camelToSpace(name),
-                    "about": ""
-                };
+            if( peopleData.indexOf(name) == -1 ){
+                // ...add this person to the peopleData array.
+                peopleData.push(name);
             }
 
         }
@@ -34,19 +30,10 @@ console.log(peopleData);
 // Convert camelCase to spaced
 function camelToSpace(str) {
     // split by ' ' at the uppercase letter
-    var split =  str.replace(/\W+/g, ' ')
-            .replace(/([a-z\d])([A-Z])/g, '$1 $2');
+    var split = str.replace(/\W+/g, ' ').replace(/([a-z\d])([A-Z])/g, '$1 $2');
     // Return with the first letter uppercase also
     return split.charAt(0).toUpperCase() + split.slice(1);
 }
-
-// Function: get person data
-var personPicture, personFullName, personBio;
-function GetPersonData(person){
-    personPicture = peopleData[person].picture;
-    personFullName = peopleData[person].name;
-    personBio = peopleData[person].about;
-};
 
 
 // Function to render the given 'name' as a new card in the page
@@ -59,7 +46,10 @@ function renderNewPerson(name, linkedFrom) {
     peopleToShowArray.push(object);
 
     // Rebuild the page with the new peopleToShowArray values
-    buildPage();
+    ReactDOM.render(
+        <OutputPage />,
+        document.getElementById('page')
+    );
 };
 
 // Function to check if a person is already on the page
@@ -76,13 +66,15 @@ function alreadyOnPage(personToCheck) {
 
 
 
-// Component: page
-var peopleToShowArray = [
-    {person: 'jeffBeck', link: 'georgeHarrison'}
-];
-// console.log(peopleToShowArray);
-
 var OutputPage = React.createClass({
+
+    clickEvent: function() {
+        console.log('clicked reset');
+        ReactDOM.render(
+            <InitialState />,
+            document.getElementById('page')
+        );
+    },
 
     render: function() {
 
@@ -103,7 +95,7 @@ var OutputPage = React.createClass({
             <main>
                 {peopleList}
                 < OutputLinkOptions linkedFrom={lastPerson}/>
-                <div className="connections-counter"><span>{peopleToShowArray.length - 1}</span> Connections</div>
+                <div className="connections-counter"><span>{peopleToShowArray.length - 1}</span> Connections <button onClick={this.clickEvent.bind()} >Start Again</button></div>
             </main>
         );
     }
@@ -142,13 +134,10 @@ var OutputPerson = React.createClass({
         var linkedFrom = this.props.linkedFrom;
         // console.log(person);
 
-        // Get the data for this person
-        GetPersonData(person);
-
         return (
                 <article className="artist">
                     <div className="artist__image">
-                        <img src={personPicture} />
+                        <img src="" />
                     </div>
                     <div className="artist__text">
                         <h1>{this.state.name}</h1>
@@ -220,8 +209,6 @@ var OutputLinkOptions = React.createClass({
                     // Don't output the person as a link to themselves OR if they are already on the page
                     if( linkingTo != linkedFrom ){
 
-                        // Get the data for this person
-                        GetPersonData(linkingTo);
                         // Note: the onClick may look a bit odd, really its just `onClick="renderNewPerson(name)"`. See http://stackoverflow.com/a/20446806/3098555
                         var clickEvent = this.clickEvent.bind(null, linkingTo, linkedFrom);
 
@@ -234,7 +221,7 @@ var OutputLinkOptions = React.createClass({
                         var key = a + "-link-to-" + linkingTo + "-from-" + linkedFrom;
 
                         // Add the markup
-                        links.push(<li key={key} onClick={clickEvent} className={itemClass}><p>{personFullName}</p><img src={personPicture}/></li>);
+                        links.push(<li key={key} onClick={clickEvent} className={itemClass}><p>{camelToSpace(linkingTo)}</p><img src=""/></li>);
                     }
                 }
             }
@@ -252,7 +239,7 @@ var OutputLinkOptions = React.createClass({
 
 function buildPage(){
     ReactDOM.render(
-        <OutputPage />,
+        <InitialState />,
         document.getElementById('page')
     );
 }

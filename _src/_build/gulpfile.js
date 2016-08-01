@@ -95,13 +95,13 @@ gulp.task('sass', function() {
     ]
   };
 
-  return gulp.src('assets/sass/**/*.scss')
+  return gulp.src('../styles/**/*.scss')
     .pipe(plumber(plumberOptions))
     .pipe(sourcemaps.init())
     .pipe(sass(sassOptions))
     .pipe(autoprefixer(autoprefixerOptions))
     .pipe(sourcemaps.write('./'))
-    .pipe(gulp.dest('assets/css'))
+    .pipe(gulp.dest('../../assets/styles'))
     .pipe(filter(filterOptions))
     .pipe(reload(reloadOptions));
 });
